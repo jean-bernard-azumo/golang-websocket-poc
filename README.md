@@ -2,12 +2,6 @@
 
 This is a simple websocket POC for future use in the project, namely for Notifications and the admin check-in live dashboard.
 
-## Websocat
-
-Websocat is a command-line client for testing WebSocket servers. It's a simple tool that allows you to connect to a WebSocket server and send and receive messages.
-
-Install it from [here](https://github.com/vi/websocat)
-
 ## Running the server
 
 ```bash
@@ -15,6 +9,12 @@ go run main.go
 ```
 
 Once running, you can open the browser and navigate to `http://localhost:8081/` to see the client connect and send pings every 10 seconds, keeping the connection alive.
+
+## Websocat
+
+Websocat is a command-line client for testing WebSocket servers. It's a simple tool that allows you to connect to a WebSocket server and send and receive messages.
+
+Install it from [here](https://github.com/vi/websocat)
 
 ## Running websocat
 
