@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <div id="status"></div>
+    <div id="messages"></div>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8081/ws');
+        const status = document.getElementById('status');
+        const messages = document.getElementById('messages');
+
+        socket.onopen = function(e) {
+            status.textContent = "Connecting...";
+            
+            // Send a ping every 10 seconds
+            setInterval(() => {
+                if (socket.readyState === WebSocket.OPEN) {
+                    console.log("[open] Connection established");
+                    socket.send('ping');
+                    console.log("[ping] Ping sent");
+                    addMessage("Ping sent");
+                }
+            }, 10000);
+        };
+
+        socket.onmessage = function(event) {
+            if (event.data === 'pong') {
+                console.log("[pong] Pong received");
+                addMessage("Pong received");
+            } else {
+                console.log(`[message] Data received from server: ${event.data}`);
+                addMessage(`Received: ${event.data}`);
+            }
+        };
+
+        socket.onclose = function(event) {
+            if (event.wasClean) {
+                status.textContent = "Closed";
+                console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            } else {
+                status.textContent = "Disconnected";
+                console.log('[close] Connection died');
+            }
+        };
+
+        socket.onerror = function(error) {
+            status.textContent = "Error";
+            console.log(`[error] ${error.message}`);
+        };
+
+        function addMessage(message) {
+            const messageElement = document.createElement('p');
+            messageElement.textContent = message;
+            messages.appendChild(messageElement);
+        }
+    </script>
+</body>
+</html>
